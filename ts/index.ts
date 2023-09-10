@@ -233,16 +233,16 @@ function generateFile() {
 }
 
 
-generateFile();
+// generateFile();
 
-console.log(generateFileHeader());
-console.log(generateBatchHeader());
-console.log(generateSegmentP());
-console.log(generateSegmentP());
-console.log(generateSegmentQ());
-console.log(generateSegmentR());
-console.log(generateFileTrailer());
-console.log(generateBatchTrailer());
+// console.log(generateFileHeader());
+// console.log(generateBatchHeader());
+// console.log(generateSegmentP());
+// console.log(generateSegmentP());
+// console.log(generateSegmentQ());
+// console.log(generateSegmentR());
+// console.log(generateFileTrailer());
+// console.log(generateBatchTrailer());
 
 // console.log(generateFileHeader().length);
 // console.log(generateBatchHeader().length);

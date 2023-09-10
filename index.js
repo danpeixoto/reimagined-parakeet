@@ -1,9 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __importDefault(require("fs"));
 function generateFileHeader() {
     const headerArquivo = {
         BancoCodigo: "341",
@@ -219,17 +214,17 @@ function generateFile() {
     }
     content += generateFileTrailer()
         + generateBatchTrailer();
-    fs_1.default.writeFileSync('./remessa.rem', content, { encoding: 'utf-8' });
+    return content;
 }
-generateFile();
-console.log(generateFileHeader());
-console.log(generateBatchHeader());
-console.log(generateSegmentP());
-console.log(generateSegmentP());
-console.log(generateSegmentQ());
-console.log(generateSegmentR());
-console.log(generateFileTrailer());
-console.log(generateBatchTrailer());
+// generateFile();
+// console.log(generateFileHeader());
+// console.log(generateBatchHeader());
+// console.log(generateSegmentP());
+// console.log(generateSegmentP());
+// console.log(generateSegmentQ());
+// console.log(generateSegmentR());
+// console.log(generateFileTrailer());
+// console.log(generateBatchTrailer());
 // console.log(generateFileHeader().length);
 // console.log(generateBatchHeader().length);
 // console.log(generateSegmentP().length);
