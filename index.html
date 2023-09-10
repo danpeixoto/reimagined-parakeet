@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de CNAB de Cobrança FEBRABAN</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Gerador de CNAB de Cobrança FEBRABAN</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class='text-center'>Dados gerais</h2>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="codBanco">Código do banco</label>
+                    <input type="text" class="form-control" name="codBanco" id="codBanco">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="nomeBanco">Nome Banco</label>
+                    <input type="text" class="form-control" name="nomeBanco" id="nomeBanco">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class='text-center'>Dados do beneficiário</h2>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="tipoInscricao">Tipo inscrição (1 ou 2)</label>
+                    <input type="text" class="form-control" name="tipoInscricao" id="tipoInscricao">
+                </div>
+                <div class="form-group">
+                    <label for="numinscricao">CPF/CNPJ</label>
+                    <input type="text" class="form-control" name="numinscricao" id="numinscricao">
+                </div>
+                <div class="form-group">
+                    <label for="agencia">Agência (sem o DV)</label>
+                    <input type="text" class="form-control" name="agencia" id="agencia">
+                </div>
+                <div class="form-group">
+                    <label for="dvAG">DV da Agência</label>
+                    <input type="text" class="form-control" name="dvAG" id="dvAG">
+                </div>
+                <div class="form-group">
+                    <label for="numConta">Número da Conta (sem o DV)</label>
+                    <input type="text" class="form-control" name="numConta" id="numConta">
+                </div>
+                <div class="form-group">
+                    <label for="dvConta">DV Conta</label>
+                    <input type="text" class="form-control" name="dvConta" id="dvConta">
+                </div>
+                <div class="form-group">
+                    <label for="nomeEmpresa">Nome da Empresa</label>
+                    <input type="text" class="form-control" name="nomeEmpresa" id="nomeEmpresa">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class='text-center'>Dados do Pagador</h2>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="tipoInscricaoPagador">Tipo inscrição (1 ou 2)</label>
+                    <input type="text" class="form-control" name="tipoInscricaoPagador" id="tipoInscricaoPagador">
+                </div>
+                <div class="form-group">
+                    <label for="numinscricaoPagador">Número de inscrição</label>
+                    <input type="text" class="form-control" name="numinscricaoPagador" id="numinscricaoPagador">
+                </div>
+                <div class="form-group">
+                    <label for="nomePagador">Nome do pagador</label>
+                    <input type="text" class="form-control" name="nomePagador" id="nomePagador">
+                </div>
+            </div>
+        </div>
+        <div class=" row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary">Gerar CNAB</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <h1>Gerador de CNAB de Cobrança FEBRABAN</h1>
+    <div>
+        <h2>Dados gerais</h2>
+        <label for="codBanco">Código do banco</label>
+        <input type="text" name="codBanco" id="codBanco">
+        <label for="nomeBanco">Nome Banco</label>
+        <input type="text" name="nomeBanco" id="nomeBanco">
+    </div>
+    <div>
+        <h2>Beneficiário</h2>
+        <label for="tipoInscricao">Tipo inscrição (1 ou 2)</label>
+        <input type="text" name="tipoInscricao" id="tipoInscricao">
+        <label for="numinscricao">cpf/cnpj</label>
+        <input type="text" name="numinscricao" id="numinscricao">
+        <label for="agencia">Agência (sem o dv)</label>
+        <input type="text" name="agencia" id="agencia">
+        <label for="dvAG">DV da agência</label>
+        <input type="text" name="dvAG" id="dvAG">
+        <label for="numConta">Número da conta (sem o dv)</label>
+        <input type="text" name="numConta" id="numConta">
+        <label for="dvConta">DV conta</label>
+        <input type="text" name="dvConta" id="dvConta">
+        <label for="nomeEmpresa">Nome da Empresa</label>
+        <input type="text" name="nomeEmpresa" id="nomeEmpresa">
+    </div>
+    <div>
+        <h2>Pagador</h2>
+    </div> -->
+    <script src="./index.js">
+    </script>
+</body>
+
+</html>
