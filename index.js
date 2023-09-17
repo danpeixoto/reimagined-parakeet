@@ -1,20 +1,37 @@
 "use strict";
-function generateFileHeader() {
+
+function padStringRight(valor, tamanhoMaximo) {
+    return `${valor}${' '.repeat(tamanhoMaximo)}`.slice(0, tamanhoMaximo);
+}
+function padNumber(valor, tamanhoMaximo) {
+    let [inteiro, decimal] = `${valor}`.split('.');
+
+    if (!decimal) {
+        decimal = '00';
+    } else if (decimal.length < 2) {
+        decimal += '0';
+    }
+
+    return `${'0'.repeat(tamanhoMaximo)}${inteiro + decimal}`
+        .split(-tamanhoMaximo)[0];
+}
+
+function generateFileHeader(valores) {
     const headerArquivo = {
-        BancoCodigo: "341",
+        BancoCodigo: valores.codBanco,
         Lote: "0000",
         Registro: "0",
         CNAB1: "         ",
-        TipoInscricaoEmpresa: "1",
-        NumeroInscricaoEmpresa: "12345678901234",
+        TipoInscricaoEmpresa: valores.tipoInscricao,
+        NumeroInscricaoEmpresa: valores.numInscricao,
         Convenio: "aaaaaaaaaaaaaaaaaaaa",
-        Agencia: "12345",
-        DVAgencia: "6",
-        Conta: "123456789012",
-        DVConta: "7",
-        DVAgenciaConta: "8",
-        NomeEmpresa: "                              ",
-        NomeBanco: "                              ",
+        Agencia: valores.agencia,
+        DVAgencia: valores.dvAG,
+        Conta: valores.numConta,
+        DVConta: valores.dvConta,
+        DVAgenciaConta: " ",
+        NomeEmpresa: valores.nomeEmpresa,
+        NomeBanco: valores.nomeBanco,
         CNAB2: "          ",
         CodigoRemessaRetorno: "1",
         DataGeracaoArquivo: "20230907",
@@ -197,18 +214,18 @@ function generateSegmentR() {
     };
     return Object.values(segmentoR).join('') + '\n';
 }
-function generateFile() {
+function generateFile(valores) {
     let content = '';
-    let operationCount = 10;
-    let currentLineNumber = 0;
+    let operationCount = valores.quantidadeRegistros || 10;
+    let currentLineNumber = 1;
     const hasSegmentR = true;
-    content += generateFileHeader()
-        + generateBatchHeader();
+    content += generateFileHeader(valores)
+        + generateBatchHeader(valores);
     while (operationCount > 0) {
-        content += generateSegmentP();
-        content += generateSegmentQ();
+        content += generateSegmentP(valores);
+        content += generateSegmentQ(valores);
         if (hasSegmentR) {
-            content += generateSegmentR();
+            content += generateSegmentR(valores);
         }
         --operationCount;
     }

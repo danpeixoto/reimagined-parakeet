@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <form onsubmit='run()' class="container">
         <h1 class="text-center">Gerador de CNAB de Cobrança FEBRABAN</h1>
         <div class="row">
             <div class="col-md-12">
@@ -22,13 +22,20 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="codBanco">Código do banco</label>
-                    <input type="text" class="form-control" name="codBanco" id="codBanco">
+                    <input required type="text" class="form-control" name="codBanco" id="codBanco">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nomeBanco">Nome Banco</label>
-                    <input type="text" class="form-control" name="nomeBanco" id="nomeBanco">
+                    <input required type="text" class="form-control" name="nomeBanco" id="nomeBanco">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="quantidadeRegistros">Digite a quantidade de registros (total de segmentos PRQ)</label>
+                    <input required type="text" class="form-control" name="quantidadeRegistros"
+                        id="quantidadeRegistros" />
                 </div>
             </div>
         </div>
@@ -39,31 +46,31 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="tipoInscricao">Tipo inscrição (1 ou 2)</label>
-                    <input type="text" class="form-control" name="tipoInscricao" id="tipoInscricao">
+                    <input required type="text" class="form-control" name="tipoInscricao" id="tipoInscricao">
                 </div>
                 <div class="form-group">
-                    <label for="numinscricao">CPF/CNPJ</label>
-                    <input type="text" class="form-control" name="numinscricao" id="numinscricao">
+                    <label for="numInscricao">CPF/CNPJ</label>
+                    <input required type="text" class="form-control" name="numInscricao" id="numInscricao">
                 </div>
                 <div class="form-group">
                     <label for="agencia">Agência (sem o DV)</label>
-                    <input type="text" class="form-control" name="agencia" id="agencia">
+                    <input required type="text" class="form-control" name="agencia" id="agencia">
                 </div>
                 <div class="form-group">
                     <label for="dvAG">DV da Agência</label>
-                    <input type="text" class="form-control" name="dvAG" id="dvAG">
+                    <input required type="text" class="form-control" name="dvAG" id="dvAG">
                 </div>
                 <div class="form-group">
                     <label for="numConta">Número da Conta (sem o DV)</label>
-                    <input type="text" class="form-control" name="numConta" id="numConta">
+                    <input required type="text" class="form-control" name="numConta" id="numConta">
                 </div>
                 <div class="form-group">
                     <label for="dvConta">DV Conta</label>
-                    <input type="text" class="form-control" name="dvConta" id="dvConta">
+                    <input required type="text" class="form-control" name="dvConta" id="dvConta">
                 </div>
                 <div class="form-group">
                     <label for="nomeEmpresa">Nome da Empresa</label>
-                    <input type="text" class="form-control" name="nomeEmpresa" id="nomeEmpresa">
+                    <input required type="text" class="form-control" name="nomeEmpresa" id="nomeEmpresa">
                 </div>
             </div>
         </div>
@@ -74,28 +81,44 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="tipoInscricaoPagador">Tipo inscrição (1 ou 2)</label>
-                    <input type="text" class="form-control" name="tipoInscricaoPagador" id="tipoInscricaoPagador">
+                    <input required type="text" class="form-control" name="tipoInscricaoPagador"
+                        id="tipoInscricaoPagador">
                 </div>
                 <div class="form-group">
                     <label for="numinscricaoPagador">Número de inscrição</label>
-                    <input type="text" class="form-control" name="numinscricaoPagador" id="numinscricaoPagador">
+                    <input required type="text" class="form-control" name="numinscricaoPagador"
+                        id="numinscricaoPagador">
                 </div>
                 <div class="form-group">
                     <label for="nomePagador">Nome do pagador</label>
-                    <input type="text" class="form-control" name="nomePagador" id="nomePagador">
+                    <input required type="text" class="form-control" name="nomePagador" id="nomePagador">
                 </div>
             </div>
         </div>
         <div class=" row">
             <div class="col-md-12">
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary" onclick='run()'>Gerar CNAB</button>
+                    <button type="submit" class="btn btn-primary">Gerar CNAB</button>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
     <script src="./index.js"></script>
     <script>
+        function downloadCNAB(content) {
+            const fileName = `teste-cnab-${Date.now()}${Math.random()}`.replace('.', '') + '.rem';
+            const blob = new Blob([content], { type: "text/plain" });
+
+            const blobUrl = window.URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = blobUrl;
+            a.download = fileName;
+
+            a.click();
+            window.URL.revokeObjectURL(blobUrl);
+        }
+
         function run() {
             const formInputs = document.querySelectorAll('input');
             const results = {};
@@ -105,8 +128,9 @@
                 results[inputId] = inputValue;
             });
 
-            console.log(results);
-        } 
+            const cnab = generateFile(results);
+            downloadCNAB(cnab);
+        }
     </script>
 </body>
 
