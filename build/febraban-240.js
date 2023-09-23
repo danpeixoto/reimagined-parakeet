@@ -39,18 +39,18 @@ export function generateFileHeader(valores) {
         Conta: padStringLeft(valores.numConta, 12, '0'),
         DVConta: padStringLeft(valores.dvConta, 1, '0'),
         DVAgenciaConta: " ",
-        NomeEmpresa: padStringRight(valores.nomeEmpresa, 40),
-        NomeBanco: padStringRight(valores.nomeBanco, 40),
+        NomeEmpresa: padStringRight(valores.nomeEmpresa, 30),
+        NomeBanco: padStringRight(valores.nomeBanco, 30),
         CNAB2: "          ",
         CodigoRemessaRetorno: "1",
-        DataGeracaoArquivo: "20230907",
-        HoraGeracaoArquivo: "123456",
+        DataGeracaoArquivo: generateDate(),
+        HoraGeracaoArquivo: "010101",
         NumeroSequencialArquivo: "000001",
         LayoutArquivo: "103",
         DensidadeGravacaoArquivo: "12345",
         ReservadoBanco: "                    ",
         ReservadoEmpresa: "                    ",
-        CNAB3: "                             ", // CNAB Uso Exclusivo FEBRABAN/CNAB
+        CNAB3: "                             ",
     };
     return Object.values(headerArquivo).join('') + '\n';
 }

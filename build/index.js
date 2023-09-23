@@ -43,7 +43,6 @@ function run() {
     downloadCNAB(cnab);
 }
 const form = document.getElementById('cnabForm');
-console.log(form);
 form?.addEventListener('submit', (e) => {
     e.preventDefault();
     run();
