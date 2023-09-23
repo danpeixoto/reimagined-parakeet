@@ -95,7 +95,7 @@ export function generateBatchHeader(valores: Record<string, any>) {
         Conta: padStringLeft(valores.numConta, 12, '0'), // Exemplo de número da conta corrente
         DVConta: padStringLeft(valores.dvConta, 1, '0'), // Exemplo de dígito verificador da conta
         DVAgenciaConta: ' ', // Exemplo de dígito verificador da agência/conta
-        NomeEmpresa: padStringRight(valores.nomeEmpresa, 40, ' '), // Exemplo de nome da empresa
+        NomeEmpresa: padStringRight(valores.nomeEmpresa, 30, ' '), // Exemplo de nome da empresa
         Informacao1: "                                        ", // Exemplo de mensagem 1
         Informacao2: "                                        ", // Exemplo de mensagem 2
         NumeroRemessaRetorno: "00000001", // Exemplo de número remessa/retorno

@@ -85,7 +85,7 @@ export function generateBatchHeader(valores) {
         Conta: padStringLeft(valores.numConta, 12, '0'),
         DVConta: padStringLeft(valores.dvConta, 1, '0'),
         DVAgenciaConta: ' ',
-        NomeEmpresa: padStringRight(valores.nomeEmpresa, 40, ' '),
+        NomeEmpresa: padStringRight(valores.nomeEmpresa, 30, ' '),
         Informacao1: "                                        ",
         Informacao2: "                                        ",
         NumeroRemessaRetorno: "00000001",
