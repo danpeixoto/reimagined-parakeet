@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <form onsubmit='run()' class="container">
+    <form class="container" id='cnabForm'>
         <h1 class="text-center">Gerador de CNAB de Cobrança FEBRABAN</h1>
         <div class="row">
             <div class="col-md-12">
@@ -34,7 +34,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="quantidadeRegistros">Digite a quantidade de registros (total de segmentos PRQ)</label>
-                    <input required type="text" class="form-control" name="quantidadeRegistros"
+                    <input required type="number" class="form-control" min='1' name="quantidadeRegistros"
                         id="quantidadeRegistros" />
                 </div>
             </div>
@@ -103,34 +103,8 @@
             </div>
         </div>
     </form>
-    <script src="./index.js"></script>
-    <script>
-        function downloadCNAB(content) {
-            const fileName = `teste-cnab-${Date.now()}${Math.random()}`.replace('.', '') + '.rem';
-            const blob = new Blob([content], { type: "text/plain" });
-
-            const blobUrl = window.URL.createObjectURL(blob);
-
-            const a = document.createElement("a");
-            a.href = blobUrl;
-            a.download = fileName;
-
-            a.click();
-            window.URL.revokeObjectURL(blobUrl);
-        }
-
-        function run(e) {
-            const formInputs = document.querySelectorAll('input');
-            const results = {};
-            formInputs.forEach(input => {
-                const inputId = input.id;
-                const inputValue = input.value;
-                results[inputId] = inputValue;
-            });
-            const cnab = generateFile(results);
-            downloadCNAB(cnab);
-        }
-    </script>
+    <script type='module' src="./build/febraban-240.js"></script>
+    <script type='module' src="./build/index.js"> </script>
 </body>
 
 </html>

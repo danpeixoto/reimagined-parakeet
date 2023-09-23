@@ -1,15 +1,14 @@
-"use strict";
-function generateHexNumber(size = 15) {
+export function generateHexNumber(size = 15) {
     const factor = Number(`1e${size}`);
     return (Math.floor(Math.random() * factor)).toString(16);
 }
-function padStringLeft(valor, tamanhoMaximo, replacer = ' ') {
+export function padStringLeft(valor, tamanhoMaximo, replacer = ' ') {
     return `${replacer.repeat(tamanhoMaximo)}${valor}`.slice(-tamanhoMaximo);
 }
-function padStringRight(valor, tamanhoMaximo, replacer = ' ') {
+export function padStringRight(valor, tamanhoMaximo, replacer = ' ') {
     return `${valor}${replacer.repeat(tamanhoMaximo)}`.slice(0, tamanhoMaximo);
 }
-function padNumber(valor, tamanhoMaximo) {
+export function padNumber(valor, tamanhoMaximo) {
     let [inteiro, decimal] = `${valor}`.split('.');
     if (!decimal) {
         decimal = '00';
@@ -20,13 +19,13 @@ function padNumber(valor, tamanhoMaximo) {
     return `${'0'.repeat(tamanhoMaximo)}${inteiro + decimal}`
         .slice(-tamanhoMaximo);
 }
-function generateDate(addDays = 0) {
+export function generateDate(addDays = 0) {
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + addDays);
     const intlDate = new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' });
     return intlDate.format(currentDate).replace(/\//g, '');
 }
-function generateFileHeader(valores) {
+export function generateFileHeader(valores) {
     const headerArquivo = {
         BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0000",
@@ -55,7 +54,7 @@ function generateFileHeader(valores) {
     };
     return Object.values(headerArquivo).join('') + '\n';
 }
-function generateFileTrailer(valores) {
+export function generateFileTrailer(valores) {
     const trailerArquivo = {
         BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "9999",
@@ -68,7 +67,7 @@ function generateFileTrailer(valores) {
     };
     return Object.values(trailerArquivo).join('') + '\n';
 }
-function generateBatchHeader(valores) {
+export function generateBatchHeader(valores) {
     const headerLote = {
         BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
@@ -96,7 +95,7 @@ function generateBatchHeader(valores) {
     };
     return Object.values(headerLote).join('') + '\n';
 }
-function generateBatchTrailer(valores) {
+export function generateBatchTrailer(valores) {
     const trailerLote = {
         BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
@@ -116,7 +115,7 @@ function generateBatchTrailer(valores) {
     };
     return Object.values(trailerLote).join('') + '\n';
 }
-function generateSegmentP(valores) {
+export function generateSegmentP(valores) {
     const segmentoP = {
         BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
@@ -163,7 +162,7 @@ function generateSegmentP(valores) {
     };
     return Object.values(segmentoP).join('') + '\n';
 }
-function generateSegmentQ(valores) {
+export function generateSegmentQ(valores) {
     const segmentoQ = {
         BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
@@ -190,7 +189,7 @@ function generateSegmentQ(valores) {
     };
     return Object.values(segmentoQ).join('') + '\n';
 }
-function generateSegmentR(valores) {
+export function generateSegmentR(valores) {
     const segmentoR = {
         BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
@@ -223,26 +222,4 @@ function generateSegmentR(valores) {
         CNAB3: "         ", // CNAB Uso Exclusivo FEBRABAN/CNAB
     };
     return Object.values(segmentoR).join('') + '\n';
-}
-function generateFile(valores) {
-    let content = '';
-    let operationCount = valores.quantidadeRegistros || 10;
-    const hasSegmentR = true;
-    content += generateFileHeader(valores)
-        + generateBatchHeader(valores);
-    valores['currentLineNumber'] = 1;
-    while (operationCount > 0) {
-        content += generateSegmentP(valores);
-        valores['currentLineNumber'] += 1;
-        content += generateSegmentQ(valores);
-        valores['currentLineNumber'] += 1;
-        if (hasSegmentR) {
-            content += generateSegmentR(valores);
-            valores['currentLineNumber'] += 1;
-        }
-        --operationCount;
-    }
-    content += generateFileTrailer(valores)
-        + generateBatchTrailer(valores);
-    return content;
 }

@@ -1,6 +1,5 @@
 import { generateBatchHeader, generateBatchTrailer, generateFileHeader, generateFileTrailer, generateSegmentP, generateSegmentQ, generateSegmentR } from './febraban-240.js';
-
-function generateFile(valores: Record<string, any>) {
+function generateFile(valores) {
     let content = '';
     let operationCount = valores.quantidadeRegistros || 10;
     const hasSegmentR = true;
@@ -18,30 +17,23 @@ function generateFile(valores: Record<string, any>) {
         }
         --operationCount;
     }
-
     content += generateFileTrailer(valores)
         + generateBatchTrailer(valores);
-
     return content;
 }
-
-function downloadCNAB(content: string) {
+function downloadCNAB(content) {
     const fileName = `teste-cnab-${Date.now()}${Math.random()}`.replace('.', '') + '.rem';
     const blob = new Blob([content], { type: "text/plain" });
-
     const blobUrl = window.URL.createObjectURL(blob);
-
     const a = document.createElement("a");
     a.href = blobUrl;
     a.download = fileName;
-
     a.click();
     window.URL.revokeObjectURL(blobUrl);
 }
-
 function run() {
     const formInputs = document.querySelectorAll('input');
-    const results: Record<string, any> = {};
+    const results = {};
     formInputs.forEach(input => {
         const inputId = input.id;
         const inputValue = input.value;
@@ -50,8 +42,8 @@ function run() {
     const cnab = generateFile(results);
     downloadCNAB(cnab);
 }
-
 const form = document.getElementById('cnabForm');
+console.log(form);
 form?.addEventListener('submit', (e) => {
     e.preventDefault();
     run();
