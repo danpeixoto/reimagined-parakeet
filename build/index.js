@@ -17,8 +17,9 @@ function generateFile(valores) {
         }
         --operationCount;
     }
-    content += generateFileTrailer(valores)
-        + generateBatchTrailer(valores);
+    content +=
+        generateBatchTrailer(valores)
+            + generateFileTrailer(valores);
     return content;
 }
 function downloadCNAB(content) {

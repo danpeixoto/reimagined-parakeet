@@ -19,8 +19,9 @@ function generateFile(valores: Record<string, any>) {
         --operationCount;
     }
 
-    content += generateFileTrailer(valores)
-        + generateBatchTrailer(valores);
+    content +=
+        generateBatchTrailer(valores)
+        + generateFileTrailer(valores);
 
     return content;
 }
