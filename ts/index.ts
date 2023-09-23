@@ -174,7 +174,6 @@ function generateSegmentP(valores: Record<string, any>) {
         NumeroContrato: "1234567890", // Exemplo de número do contrato da operação de crédito
         UsoLivre: " ", // Exemplo de uso livre banco/empresa ou autorização de pagamento parcial
     };
-
     return Object.values(segmentoP).join('') + '\n';
 }
 
