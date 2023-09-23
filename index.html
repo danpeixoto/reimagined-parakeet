@@ -85,9 +85,9 @@
                         id="tipoInscricaoPagador">
                 </div>
                 <div class="form-group">
-                    <label for="numinscricaoPagador">Número de inscrição</label>
-                    <input required type="text" class="form-control" name="numinscricaoPagador"
-                        id="numinscricaoPagador">
+                    <label for="numInscricaoPagador">Número de inscrição</label>
+                    <input required type="text" class="form-control" name="numInscricaoPagador"
+                        id="numInscricaoPagador">
                 </div>
                 <div class="form-group">
                     <label for="nomePagador">Nome do pagador</label>
@@ -119,7 +119,8 @@
             window.URL.revokeObjectURL(blobUrl);
         }
 
-        function run() {
+        function run(e) {
+            e.preventDefault();
             const formInputs = document.querySelectorAll('input');
             const results = {};
             formInputs.forEach(input => {
@@ -127,7 +128,6 @@
                 const inputValue = input.value;
                 results[inputId] = inputValue;
             });
-
             const cnab = generateFile(results);
             downloadCNAB(cnab);
         }

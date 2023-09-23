@@ -1,37 +1,47 @@
 "use strict";
-
-function padStringRight(valor, tamanhoMaximo) {
-    return `${valor}${' '.repeat(tamanhoMaximo)}`.slice(0, tamanhoMaximo);
+function generateHexNumber(size = 15) {
+    const factor = Number(`1e${size}`);
+    return (Math.floor(Math.random() * factor)).toString(16);
+}
+function padStringLeft(valor, tamanhoMaximo, replacer = ' ') {
+    return `${replacer.repeat(tamanhoMaximo)}${valor}`.slice(-tamanhoMaximo);
+}
+function padStringRight(valor, tamanhoMaximo, replacer = ' ') {
+    return `${valor}${replacer.repeat(tamanhoMaximo)}`.slice(0, tamanhoMaximo);
 }
 function padNumber(valor, tamanhoMaximo) {
     let [inteiro, decimal] = `${valor}`.split('.');
-
     if (!decimal) {
         decimal = '00';
-    } else if (decimal.length < 2) {
+    }
+    else if (decimal.length < 2) {
         decimal += '0';
     }
-
     return `${'0'.repeat(tamanhoMaximo)}${inteiro + decimal}`
-        .split(-tamanhoMaximo)[0];
+        .slice(-tamanhoMaximo);
 }
-
+function generateDate(addDays = 0) {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + addDays);
+    const intlDate = new Intl.DateTimeFormat('pt-BR', { timeZone: 'UTC' });
+    return intlDate.format(currentDate).replace(/\//g, '');
+}
 function generateFileHeader(valores) {
     const headerArquivo = {
-        BancoCodigo: valores.codBanco,
+        BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0000",
         Registro: "0",
         CNAB1: "         ",
-        TipoInscricaoEmpresa: valores.tipoInscricao,
-        NumeroInscricaoEmpresa: valores.numInscricao,
+        TipoInscricaoEmpresa: padStringLeft(valores.tipoInscricao, 1, '0'),
+        NumeroInscricaoEmpresa: padStringLeft(valores.numInscricao, 14, '0'),
         Convenio: "aaaaaaaaaaaaaaaaaaaa",
-        Agencia: valores.agencia,
-        DVAgencia: valores.dvAG,
-        Conta: valores.numConta,
-        DVConta: valores.dvConta,
+        Agencia: padStringLeft(valores.agencia, 5, '0'),
+        DVAgencia: padStringLeft(valores.dvAG, 1, '0'),
+        Conta: padStringLeft(valores.numConta, 12, '0'),
+        DVConta: padStringLeft(valores.dvConta, 1, '0'),
         DVAgenciaConta: " ",
-        NomeEmpresa: valores.nomeEmpresa,
-        NomeBanco: valores.nomeBanco,
+        NomeEmpresa: padStringRight(valores.nomeEmpresa, 40),
+        NomeBanco: padStringRight(valores.nomeBanco, 40),
         CNAB2: "          ",
         CodigoRemessaRetorno: "1",
         DataGeracaoArquivo: "20230907",
@@ -45,9 +55,9 @@ function generateFileHeader(valores) {
     };
     return Object.values(headerArquivo).join('') + '\n';
 }
-function generateFileTrailer() {
+function generateFileTrailer(valores) {
     const trailerArquivo = {
-        BancoCodigo: "341",
+        BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "9999",
         Registro: "9",
         CNAB1: "         ",
@@ -58,9 +68,9 @@ function generateFileTrailer() {
     };
     return Object.values(trailerArquivo).join('') + '\n';
 }
-function generateBatchHeader() {
+function generateBatchHeader(valores) {
     const headerLote = {
-        BancoCodigo: "341",
+        BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
         Registro: "1",
         Operacao: "R",
@@ -68,15 +78,15 @@ function generateBatchHeader() {
         CNAB1: "  ",
         LayoutLote: "060",
         CNAB2: " ",
-        TipoInscricaoEmpresa: "1",
-        NumeroInscricaoEmpresa: "123456789012345",
+        TipoInscricaoEmpresa: padStringLeft(valores.tipoInscricao, 1, '0'),
+        NumeroInscricaoEmpresa: padStringLeft(valores.numInscricao, 15, '0'),
         Convenio: "aaaaaaaaaaaaaaaaaaaa",
-        Agencia: "12345",
-        DVC: "6",
-        Conta: "123456789012",
-        DVConta: "7",
-        DVAgenciaConta: "8",
-        NomeEmpresa: "                              ",
+        Agencia: padStringLeft(valores.agencia, 5, '0'),
+        DVAgencia: padStringLeft(valores.dvAG, 1, '0'),
+        Conta: padStringLeft(valores.numConta, 12, '0'),
+        DVConta: padStringLeft(valores.dvConta, 1, '0'),
+        DVAgenciaConta: ' ',
+        NomeEmpresa: padStringRight(valores.nomeEmpresa, 40, ' '),
         Informacao1: "                                        ",
         Informacao2: "                                        ",
         NumeroRemessaRetorno: "00000001",
@@ -86,9 +96,9 @@ function generateBatchHeader() {
     };
     return Object.values(headerLote).join('') + '\n';
 }
-function generateBatchTrailer() {
+function generateBatchTrailer(valores) {
     const trailerLote = {
-        BancoCodigo: "341",
+        BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
         Registro: "5",
         CNAB1: "         ",
@@ -106,98 +116,98 @@ function generateBatchTrailer() {
     };
     return Object.values(trailerLote).join('') + '\n';
 }
-function generateSegmentP() {
+function generateSegmentP(valores) {
     const segmentoP = {
-        BancoCodigo: "341",
+        BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
         Registro: "3",
-        NRegistro: "00001",
+        NRegistro: padStringLeft(valores.currentLineNumber || 0, 5, '0'),
         Segmento: "P",
         Brancos1: " ",
         CodMovimento: "01",
-        AgenciaCodigo: "12345",
-        AgenciaDV: "6",
-        ContaNumero: "000000000000",
-        ContaDV: "7",
-        AgenciaContaDV: "8",
-        NossoNumero: "00000000000000000000",
+        AgenciaCodigo: padStringLeft(valores.agencia, 5, '0'),
+        AgenciaDV: padStringLeft(valores.dvAG, 1, '0'),
+        ContaNumero: padStringLeft(valores.numConta, 12, '0'),
+        ContaDV: padStringLeft(valores.dvConta, 1, '0'),
+        AgenciaContaDV: " ",
+        NossoNumero: padStringLeft(Date.now() + generateHexNumber(), 20, '0'),
         Carteira: "1",
         FormaCadastro: "1",
         DocumentoTipo: "C",
         EmissaoBoleto: "1",
         DistribuicaoBoleto: "2",
-        NumeroDocumento: "000000000000000",
-        Vencimento: "01012024",
-        ValorTitulo: "000000000000000",
-        AgenciaCobradora: "54321",
-        AgenciaCobradoraDV: "9",
+        NumeroDocumento: padStringLeft(Date.now() + generateHexNumber(), 15, '0'),
+        Vencimento: generateDate(100),
+        ValorTitulo: "000000000000200",
+        AgenciaCobradora: "     ",
+        AgenciaCobradoraDV: " ",
         EspecieTitulo: "01",
         Aceite: "N",
-        DataEmissao: "01012024",
+        DataEmissao: generateDate(),
         JurosMoraCodigo: "1",
-        JurosMoraData: "01012024",
-        JurosValor: "000000000000000",
+        JurosMoraData: generateDate(100),
+        JurosValor: "000000000000100",
         Desconto1Codigo: "1",
-        Desconto1Data: "01012024",
-        Desconto1Valor: "000000000000000",
+        Desconto1Data: generateDate(100),
+        Desconto1Valor: "000000000000100",
         ValorIOF: "000000000000000",
         ValorAbatimento: "000000000000000",
         UsoEmpresaBeneficiario: "aaaaaaaaaaaaaaaaaaaaaaaaa",
         CodigoProtesto: "1",
         PrazoProtesto: "02",
         CodigoBaixaDevolucao: "2",
-        PrazoBaixaDevolucao: "005",
+        PrazoBaixaDevolucao: "050",
         CodigoMoeda: "09",
         NumeroContrato: "1234567890",
         UsoLivre: " ", // Exemplo de uso livre banco/empresa ou autorização de pagamento parcial
     };
     return Object.values(segmentoP).join('') + '\n';
 }
-function generateSegmentQ() {
+function generateSegmentQ(valores) {
     const segmentoQ = {
-        BancoCodigo: "341",
+        BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
         Registro: "3",
-        NRegistro: "00001",
+        NRegistro: padStringLeft(valores.currentLineNumber, 5, '0'),
         Segmento: "Q",
         Brancos1: " ",
         CodMovimento: "01",
-        TipoInscricao: "1",
-        NumeroInscricao: "000000000000000",
-        Nome: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        Endereco: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        Bairro: "aaaaaaaaaaaaaaa",
-        CEP: "12345",
-        SufixoCEP: "678",
-        Cidade: "aaaaaaaaaaaaaaa",
-        UF: "SP",
-        TipoInscricaoSacAval: "1",
-        NumeroInscricaoSacAval: "123456789012345",
-        NomeSacAval: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        BancoCorrespondente: "001",
-        NossoNumeroBancoCorrespondente: "12345678901234567890",
+        TipoInscricaoEmpresa: padStringLeft(valores.tipoInscricaoPagador, 1, '0'),
+        NumeroInscricaoEmpresa: padStringLeft(valores.numInscricaoPagador, 15, '0'),
+        Nome: padStringRight(valores.nomePagador, 40),
+        Endereco: padStringRight('Rua porto alegre', 40),
+        Bairro: padStringRight('Porto alegre', 15),
+        CEP: "91420",
+        SufixoCEP: "632",
+        Cidade: padStringRight('Porto alegre', 15),
+        UF: "RS",
+        TipoInscricaoSacAval: padStringLeft(valores.tipoInscricaoPagador, 1, '0'),
+        NumeroInscricaoSacAval: padStringLeft(valores.numInscricaoPagador, 15, '0'),
+        NomeSacAval: padStringRight(valores.nomePagador, 40),
+        BancoCorrespondente: padStringLeft(valores.codBanco, 3, '0'),
+        NossoNumeroBancoCorrespondente: padStringLeft(Date.now() + generateHexNumber(), 20, '0'),
         CNAB2: "        ", // CNAB Uso Exclusivo FEBRABAN/CNAB
     };
     return Object.values(segmentoQ).join('') + '\n';
 }
-function generateSegmentR() {
+function generateSegmentR(valores) {
     const segmentoR = {
-        BancoCodigo: "341",
+        BancoCodigo: padStringLeft(valores.codBanco, 3, '0'),
         Lote: "0001",
         Registro: "3",
-        NRegistro: "00001",
+        NRegistro: padStringLeft(valores.currentLineNumber, 5, '0'),
         Segmento: "R",
         Brancos: " ",
         CodMovimento: "01",
         CodDesconto2: "1",
-        DataDesconto2: "01022024",
-        ValorDesconto2: "000000000000000",
-        CodDesconto3: "2",
-        DataDesconto3: "20230915",
-        ValorDesconto3: "000000000000000",
-        CodMulta: "A",
-        DataMulta: "20230920",
-        ValorMulta: "000000000000000",
+        DataDesconto2: generateDate(100),
+        ValorDesconto2: "000000000000050",
+        CodDesconto3: "1",
+        DataDesconto3: generateDate(100),
+        ValorDesconto3: "000000000000050",
+        CodMulta: "1",
+        DataMulta: generateDate(100),
+        ValorMulta: "000000000000100",
         InformacaoPagador: "aaaaaaaaaa",
         Informacao3: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         Informacao4: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -217,36 +227,22 @@ function generateSegmentR() {
 function generateFile(valores) {
     let content = '';
     let operationCount = valores.quantidadeRegistros || 10;
-    let currentLineNumber = 1;
     const hasSegmentR = true;
     content += generateFileHeader(valores)
         + generateBatchHeader(valores);
+    valores['currentLineNumber'] = 1;
     while (operationCount > 0) {
         content += generateSegmentP(valores);
+        valores['currentLineNumber'] += 1;
         content += generateSegmentQ(valores);
+        valores['currentLineNumber'] += 1;
         if (hasSegmentR) {
             content += generateSegmentR(valores);
+            valores['currentLineNumber'] += 1;
         }
         --operationCount;
     }
-    content += generateFileTrailer()
-        + generateBatchTrailer();
+    content += generateFileTrailer(valores)
+        + generateBatchTrailer(valores);
     return content;
 }
-// generateFile();
-// console.log(generateFileHeader());
-// console.log(generateBatchHeader());
-// console.log(generateSegmentP());
-// console.log(generateSegmentP());
-// console.log(generateSegmentQ());
-// console.log(generateSegmentR());
-// console.log(generateFileTrailer());
-// console.log(generateBatchTrailer());
-// console.log(generateFileHeader().length);
-// console.log(generateBatchHeader().length);
-// console.log(generateSegmentP().length);
-// console.log(generateSegmentP().length);
-// console.log(generateSegmentQ().length);
-// console.log(generateSegmentR().length);
-// console.log(generateFileTrailer().length);
-// console.log(generateBatchTrailer().length);
