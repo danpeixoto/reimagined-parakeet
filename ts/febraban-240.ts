@@ -149,7 +149,7 @@ export function generateSegmentP(valores: Record<string, any>) {
         DocumentoTipo: "1", // Exemplo de tipo de documento
         EmissaoBoleto: "1", // Exemplo de identificação da emissão do boleto de pagamento
         DistribuicaoBoleto: "2", // Exemplo de identificação da distribuição
-        NumeroDocumento: padStringLeft(Date.now() + generateHexNumber(), 15, '0'), // Exemplo de número do documento de cobrança
+        NumeroDocumento: padStringLeft(Date.now() + generateHexNumber(25), 15, '0'), // Exemplo de número do documento de cobrança
         Vencimento: generateDate(100), // Exemplo de data de vencimento do título
         ValorTitulo: "000000000000200", // Exemplo de valor nominal do título
         AgenciaCobradora: "     ", // Exemplo de código da agência cobradora
@@ -165,7 +165,7 @@ export function generateSegmentP(valores: Record<string, any>) {
         Desconto1Valor: "000000000000100", // Exemplo de valor/percentual a ser concedido para o desconto 1
         ValorIOF: "000000000000000", // Exemplo de valor do IOF a ser recolhido
         ValorAbatimento: "000000000000000", // Exemplo de valor do abatimento
-        UsoEmpresaBeneficiario: "aaaaaaaaaaaaaaaaaaaaaaaaa", // Exemplo de identificação do título na empresa
+        UsoEmpresaBeneficiario: padStringLeft(Date.now() + generateHexNumber(), 25, '0'), // Exemplo de identificação do título na empresa
         CodigoProtesto: "1", // Exemplo de código para protesto
         PrazoProtesto: "02", // Exemplo de número de dias para protesto
         CodigoBaixaDevolucao: "2", // Exemplo de código para baixa/devolução
