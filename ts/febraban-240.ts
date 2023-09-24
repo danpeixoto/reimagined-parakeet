@@ -146,7 +146,7 @@ export function generateSegmentP(valores: Record<string, any>) {
         NossoNumero: padStringLeft(Date.now() + generateHexNumber(), 20, '0'), // Exemplo de nosso número
         Carteira: "1", // Exemplo de código da carteira
         FormaCadastro: "1", // Exemplo de forma de cadastro do título no banco
-        DocumentoTipo: "C", // Exemplo de tipo de documento
+        DocumentoTipo: "1", // Exemplo de tipo de documento
         EmissaoBoleto: "1", // Exemplo de identificação da emissão do boleto de pagamento
         DistribuicaoBoleto: "2", // Exemplo de identificação da distribuição
         NumeroDocumento: padStringLeft(Date.now() + generateHexNumber(), 15, '0'), // Exemplo de número do documento de cobrança
@@ -158,7 +158,7 @@ export function generateSegmentP(valores: Record<string, any>) {
         Aceite: "N", // Exemplo de identificação de título aceito/não aceito
         DataEmissao: generateDate(), // Exemplo de data de emissão do título
         JurosMoraCodigo: "1", // Exemplo de código de juros de mora
-        JurosMoraData: generateDate(100), // Exemplo de data de juros de mora
+        JurosMoraData: generateDate(101), // Exemplo de data de juros de mora
         JurosValor: "000000000000100", // Exemplo de juros de mora por dia/taxa
         Desconto1Codigo: "1", // Exemplo de código do desconto 1
         Desconto1Data: generateDate(100), // Exemplo de data do desconto 1
@@ -222,7 +222,7 @@ export function generateSegmentR(valores: Record<string, any>) {
         DataDesconto3: generateDate(100), // Exemplo de data do desconto 3
         ValorDesconto3: "000000000000050", // Exemplo de valor/percentual a ser concedido para o desconto 3
         CodMulta: "1", // Exemplo de código da multa
-        DataMulta: generateDate(100), // Exemplo de data da multa
+        DataMulta: generateDate(101), // Exemplo de data da multa
         ValorMulta: "000000000000100", // Exemplo de valor/percentual a ser aplicado da multa
         InformacaoPagador: "aaaaaaaaaa", // Exemplo de informação ao pagador
         Informacao3: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", // Exemplo de mensagem 3
