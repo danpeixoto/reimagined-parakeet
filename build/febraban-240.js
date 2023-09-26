@@ -154,7 +154,7 @@ export function generateSegmentP(valores) {
         UsoEmpresaBeneficiario: padStringLeft(Date.now() + generateHexNumber(), 25, '0'),
         CodigoProtesto: "1",
         PrazoProtesto: "02",
-        CodigoBaixaDevolucao: "2",
+        CodigoBaixaDevolucao: valores.enableWriteOff ? "1" : "2",
         PrazoBaixaDevolucao: "050",
         CodigoMoeda: "09",
         NumeroContrato: "1234567890",

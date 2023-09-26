@@ -168,7 +168,7 @@ export function generateSegmentP(valores: Record<string, any>) {
         UsoEmpresaBeneficiario: padStringLeft(Date.now() + generateHexNumber(), 25, '0'), // Exemplo de identificação do título na empresa
         CodigoProtesto: "1", // Exemplo de código para protesto
         PrazoProtesto: "02", // Exemplo de número de dias para protesto
-        CodigoBaixaDevolucao: "2", // Exemplo de código para baixa/devolução
+        CodigoBaixaDevolucao: valores.enableWriteOff ? "1" : "2", // Exemplo de código para baixa/devolução
         PrazoBaixaDevolucao: "050", // Exemplo de número de dias para baixa/devolução
         CodigoMoeda: "09", // Exemplo de código da moeda
         NumeroContrato: "1234567890", // Exemplo de número do contrato da operação de crédito

@@ -2,7 +2,7 @@ import { generateBatchHeader, generateBatchTrailer, generateFileHeader, generate
 function generateFile(valores) {
     let content = '';
     let operationCount = valores.quantidadeRegistros || 10;
-    const hasSegmentR = true;
+    const hasSegmentR = valores.enableSegmentR || false;
     content += generateFileHeader(valores)
         + generateBatchHeader(valores);
     valores['currentLineNumber'] = 1;
@@ -37,7 +37,13 @@ function run() {
     const results = {};
     formInputs.forEach(input => {
         const inputId = input.id;
-        const inputValue = input.value;
+        let inputValue;
+        if (input.type === 'checkbox') {
+            inputValue = input.checked;
+        }
+        else {
+            inputValue = input.value;
+        }
         results[inputId] = inputValue;
     });
     const cnab = generateFile(results);
