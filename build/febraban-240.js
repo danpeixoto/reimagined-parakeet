@@ -129,13 +129,13 @@ export function generateSegmentP(valores) {
         ContaNumero: padStringLeft(valores.numConta, 12, '0'),
         ContaDV: padStringLeft(valores.dvConta, 1, '0'),
         AgenciaContaDV: " ",
-        NossoNumero: padStringLeft(Date.now() + `${Math.floor(Math.random() * 1000000)}`, 20, '0'),
+        NossoNumero: padStringLeft(`${Math.floor(Math.random() * 1000000)}` + Date.now(), 20, '0'),
         Carteira: "1",
         FormaCadastro: "1",
         DocumentoTipo: "1",
         EmissaoBoleto: "1",
         DistribuicaoBoleto: "2",
-        NumeroDocumento: padStringLeft(Date.now() + generateHexNumber(25), 15, '0'),
+        NumeroDocumento: padStringLeft(generateHexNumber() + Date.now(), 15, '0'),
         Vencimento: generateDate(100),
         ValorTitulo: "000000000000200",
         AgenciaCobradora: "     ",
@@ -151,7 +151,7 @@ export function generateSegmentP(valores) {
         Desconto1Valor: "000000000000100",
         ValorIOF: "000000000000000",
         ValorAbatimento: "000000000000000",
-        UsoEmpresaBeneficiario: padStringLeft(Date.now() + generateHexNumber(), 25, '0'),
+        UsoEmpresaBeneficiario: padStringLeft(generateHexNumber() + Date.now(), 25, '0'),
         CodigoProtesto: "1",
         PrazoProtesto: "02",
         CodigoBaixaDevolucao: valores.enableWriteOff ? "1" : "2",
@@ -184,7 +184,7 @@ export function generateSegmentQ(valores) {
         NumeroInscricaoSacAval: padStringLeft(valores.numInscricaoPagador, 15, '0'),
         NomeSacAval: padStringRight(valores.nomePagador, 40),
         BancoCorrespondente: padStringLeft(valores.codBanco, 3, '0'),
-        NossoNumeroBancoCorrespondente: padStringLeft(Date.now() + generateHexNumber(), 20, '0'),
+        NossoNumeroBancoCorrespondente: padStringLeft(generateHexNumber() + Date.now(), 20, '0'),
         CNAB2: "        ", // CNAB Uso Exclusivo FEBRABAN/CNAB
     };
     return Object.values(segmentoQ).join('') + '\n';
