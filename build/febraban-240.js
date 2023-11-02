@@ -223,3 +223,6 @@ export function generateSegmentR(valores) {
     };
     return Object.values(segmentoR).join('') + '\n';
 }
+self.onmessage = (event) => {
+    console.log(event);
+};

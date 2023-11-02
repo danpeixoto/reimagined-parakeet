@@ -241,3 +241,6 @@ export function generateSegmentR(valores: Record<string, any>) {
     return Object.values(segmentoR).join('') + '\n';
 }
 
+self.onmessage = (event) => {
+    console.log(event);
+};

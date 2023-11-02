@@ -1,27 +1,12 @@
-import { generateBatchHeader, generateBatchTrailer, generateFileHeader, generateFileTrailer, generateSegmentP, generateSegmentQ, generateSegmentR } from './febraban-240.js';
-function generateFile(valores) {
-    let content = '';
-    let operationCount = valores.quantidadeRegistros || 10;
-    const hasSegmentR = valores.enableSegmentR || false;
-    content += generateFileHeader(valores)
-        + generateBatchHeader(valores);
-    valores['currentLineNumber'] = 1;
-    while (operationCount > 0) {
-        content += generateSegmentP(valores);
-        valores['currentLineNumber'] += 1;
-        content += generateSegmentQ(valores);
-        valores['currentLineNumber'] += 1;
-        if (hasSegmentR) {
-            content += generateSegmentR(valores);
-            valores['currentLineNumber'] += 1;
-        }
-        --operationCount;
-    }
-    content +=
-        generateBatchTrailer(valores)
-            + generateFileTrailer(valores);
-    return content;
-}
+"use strict";
+const worker = new Worker('./build/worker.js', { type: 'module' });
+worker.onmessage = function (event) {
+    const data = event.data;
+    downloadCNAB(data);
+};
+worker.onerror = function (error) {
+    console.error('Error occurred in the worker: ' + JSON.stringify(error));
+};
 function downloadCNAB(content) {
     const fileName = `teste-cnab-${Date.now()}${Math.random()}`.replace('.', '') + '.rem';
     const blob = new Blob([content], { type: "text/plain" });
@@ -46,8 +31,7 @@ function run() {
         }
         results[inputId] = inputValue;
     });
-    const cnab = generateFile(results);
-    downloadCNAB(cnab);
+    worker.postMessage(results);
 }
 const form = document.getElementById('cnabForm');
 form?.addEventListener('submit', (e) => {
