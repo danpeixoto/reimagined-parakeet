@@ -39,7 +39,7 @@ export function generateFileHeader(valores: Record<string, any>) {
         CNAB1: "         ",
         TipoInscricaoEmpresa: padStringLeft(valores.tipoInscricao, 1, '0'),
         NumeroInscricaoEmpresa: padStringLeft(valores.numInscricao, 14, '0'),
-        Convenio: "aaaaaaaaaaaaaaaaaaaa",
+        Convenio: padStringLeft(valores.convenio, 20, ' '),
         Agencia: padStringLeft(valores.agencia, 5, '0'),
         DVAgencia: padStringLeft(valores.dvAG, 1, '0'),
         Conta: padStringLeft(valores.numConta, 12, '0'),
@@ -89,7 +89,7 @@ export function generateBatchHeader(valores: Record<string, any>) {
         CNAB2: " ", // CNAB Uso Exclusivo FEBRABAN/CNAB
         TipoInscricaoEmpresa: padStringLeft(valores.tipoInscricao, 1, '0'), // Exemplo de tipo de inscrição da empresa
         NumeroInscricaoEmpresa: padStringLeft(valores.numInscricao, 15, '0'), // Exemplo de número de inscrição da empresa
-        Convenio: "aaaaaaaaaaaaaaaaaaaa", // Exemplo de código do convênio no banco
+        Convenio: padStringLeft(valores.convenio, 20, " "), // Exemplo de código do convênio no banco
         Agencia: padStringLeft(valores.agencia, 5, '0'), // Exemplo de código da agência mantenedora da conta
         DVAgencia: padStringLeft(valores.dvAG, 1, '0'), // Exemplo de dígito verificador da agencia
         Conta: padStringLeft(valores.numConta, 12, '0'), // Exemplo de número da conta corrente
