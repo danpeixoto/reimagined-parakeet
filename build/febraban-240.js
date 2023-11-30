@@ -129,7 +129,7 @@ export function generateSegmentP(valores) {
         ContaNumero: padStringLeft(valores.numConta, 12, '0'),
         ContaDV: padStringLeft(valores.dvConta, 1, '0'),
         AgenciaContaDV: " ",
-        NossoNumero: padStringLeft(`${Math.floor(Math.random() * 1000000)}` + Date.now(), 20, '0'),
+        NossoNumero: padStringLeft(`${Math.floor(Math.random() * 1000000)}` + Date.now() + valores.currentLineNumber, 20, '0'),
         Carteira: "1",
         FormaCadastro: "1",
         DocumentoTipo: "1",

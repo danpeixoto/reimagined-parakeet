@@ -143,7 +143,7 @@ export function generateSegmentP(valores: Record<string, any>) {
         ContaNumero: padStringLeft(valores.numConta, 12, '0'), // Exemplo de número da conta corrente
         ContaDV: padStringLeft(valores.dvConta, 1, '0'), // Exemplo de dígito verificador da conta
         AgenciaContaDV: " ", // Exemplo de dígito verificador da agência/conta
-        NossoNumero: padStringLeft(`${Math.floor(Math.random() * 1000000)}` + Date.now(), 20, '0'), // Exemplo de nosso número
+        NossoNumero: padStringLeft(`${Math.floor(Math.random() * 1000000)}` + Date.now() + valores.currentLineNumber, 20, '0'), // Exemplo de nosso número
         Carteira: "1", // Exemplo de código da carteira
         FormaCadastro: "1", // Exemplo de forma de cadastro do título no banco
         DocumentoTipo: "1", // Exemplo de tipo de documento
