@@ -1,4 +1,5 @@
-import { generateBatchHeader, generateBatchTrailer, generateFileHeader, generateFileTrailer, generateSegmentP, generateSegmentQ, generateSegmentR } from './febraban-240.js';
+import { generateBatchHeader, generateBatchTrailer, generateFileHeader, generateFileTrailer, generateSegmentP, generateSegmentQ, generateSegmentR } from './generator.js';
+
 self.onmessage = function (event) {
     const data = event.data;
     const result = generateFile(data);
@@ -7,7 +8,8 @@ self.onmessage = function (event) {
 self.onerror = function (event) {
     console.log('worker->error->event', event);
 };
-function generateFile(valores) {
+
+function generateFile(valores: Record<string, any>) {
     let content = '';
     let operationCount = valores.quantidadeRegistros || 10;
     const hasSegmentR = valores.enableSegmentR || false;
@@ -25,8 +27,10 @@ function generateFile(valores) {
         }
         --operationCount;
     }
+
     content +=
         generateBatchTrailer(valores)
-            + generateFileTrailer(valores);
+        + generateFileTrailer(valores);
+
     return content;
 }
