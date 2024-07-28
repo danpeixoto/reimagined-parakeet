@@ -1,28 +1,18 @@
-const worker = new Worker('/build/febraban/240/cobranca/worker.js', { type: 'module' });
+import { downloadCNAB } from '../../../utils.js';
 
-worker.onmessage = function (event) {
-    const data = event.data;
-    downloadCNAB(data);
-};
-worker.onerror = function (error) {
-    console.error('Error occurred in the worker: ' + JSON.stringify(error));
-};
 
-function downloadCNAB(content: string) {
-    const fileName = `teste-cnab-${Date.now()}${Math.random()}`.replace('.', '') + '.rem';
-    const blob = new Blob([content], { type: "text/plain" });
+function runFebraban240Cobranca() {
+    const worker = new Worker('/build/febraban/240/cobranca/worker.js', { type: 'module' });
 
-    const blobUrl = window.URL.createObjectURL(blob);
+    worker.onmessage = function (event) {
+        const data = event.data;
+        const fileType = 'febraban-cobranca-240';
+        downloadCNAB(data, fileType);
+    };
+    worker.onerror = function (error) {
+        console.error('Error occurred in the worker: ' + JSON.stringify(error));
+    };
 
-    const a = document.createElement("a");
-    a.href = blobUrl;
-    a.download = fileName;
-
-    a.click();
-    window.URL.revokeObjectURL(blobUrl);
-}
-
-function run() {
     const formInputs = document.querySelectorAll('input');
     const results: Record<string, any> = {};
     formInputs.forEach(input => {
@@ -39,8 +29,11 @@ function run() {
     worker.postMessage(results);
 }
 
-const form = document.getElementById('cnabForm');
-form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    run();
-});
+(() => {
+    const form = document.getElementById('cnabForm');
+    form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        runFebraban240Cobranca();
+    });
+})()
+

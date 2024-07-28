@@ -2,14 +2,14 @@ import { generateBatchHeader, generateBatchTrailer, generateFileHeader, generate
 
 self.onmessage = function (event) {
     const data = event.data;
-    const result = generateFile(data);
+    const result = febraban240CobrancaGenerateFile(data);
     self.postMessage(result);
 };
 self.onerror = function (event) {
     console.log('worker->error->event', event);
 };
 
-function generateFile(valores: Record<string, any>) {
+function febraban240CobrancaGenerateFile(valores: Record<string, any>) {
     let content = '';
     let operationCount = valores.quantidadeRegistros || 10;
     const hasSegmentR = valores.enableSegmentR || false;
@@ -34,3 +34,4 @@ function generateFile(valores: Record<string, any>) {
 
     return content;
 }
+
